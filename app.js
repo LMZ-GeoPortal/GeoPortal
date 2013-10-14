@@ -54,21 +54,39 @@ Ext.application({
 
     launch: function() {
         
-		/*var mapGoogle = Ext.create('Ext.Map', {
-            mapOptions : {
-                center : new google.maps.LatLng(37.381592, -122.135672),  //nearby San Fran
-                zoom : 12
-                
-               }
-			});*/
+		/*var attribution = new ol.Attribution({
+					 html: 'Tiles &copy; <a href="http://services.arcgisonline.com/ArcGIS/' +
+				  		'rest/services/World_Topo_Map/MapServer">ArcGIS</a>'
+					});*/
+				
 		
 		//open layers map
 		 mapOl = new ol.Map({
 				//target: 'map',
 				layers: [
 						new ol.layer.Tile({
-						source: new ol.source.MapQuestOpenAerial()
-						})
+							source: new ol.source.MapQuestOSM(),
+							visible: false
+								})
+							,
+						
+						new ol.layer.Tile({
+							visible: false,
+							preload: Infinity,
+							source: new ol.source.BingMaps({
+								key: 'Ar33pRUvQOdESG8m_T15MUmNz__E1twPo42bFx9jvdDePhX0PNgAcEm44OVTS7tt',
+								style: 'Road'
+								})
+							})
+						/*new ol.layer.Tile({
+							visible: true,
+							preload: Infinity,
+							source: new ol.source.XYZ({
+										attributions: [attribution],
+										url: 'http://server.arcgisonline.com/ArcGIS/rest/services/' +
+											'World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+									  })
+							})*/
 					],
 				view: new ol.View2D({
 						center: ol.proj.transform([37.41, 8.82], 'EPSG:4326', 'EPSG:3857'),
@@ -80,7 +98,7 @@ Ext.application({
 
 		//temp.innerItems[1].add (mapOl); //Ext.getCmp("mappanel").getInnerHtmlElement()
 		Ext.Viewport.add(temp);
-		mapOl.setTarget('mappanel');
+		mapOl.setTarget('mapPanel');
     },
 
     onUpdated: function() {

@@ -17,51 +17,73 @@ Ext.define('geoportal.view.Main', {
                 scrollable: true,
 
                 items: [{
-						docked: 'top',
-						xtype: 'titlebar',
-						title: 'Welcome to Geo Portal'
-					},
-					 {
-						xtype: 'panel',
-						docked: 'left',
-						html: 'Legend goes here',
-						flex: 1,
-						items:[
-							{
-								id: 'tbx_start',
-								xtype: 'textfield',
-								name : 'name',
-								label: 'Location'
-							},
-							{
-								id: 'tbx_radius',
-								xtype: 'textfield',
-								name : 'name',
-								label: 'Radius'
-							},
-							{
-								id: 'btn_search',
-								xtype: 'button',
-								name : 'name',
-								text: 'Search'
-								
-							}
-						]
-					},
-					{
-						xtype: 'map',
-						useCurrentLocation: false,
-						flex: 2
+			docked: 'top',
+			xtype: 'titlebar',
+			title: 'Welcome to Geo Portal'
+			},
+			{
+			xtype: 'panel',
+			docked: 'left',
+			html: 'Legend goes here',
+			flex: 1,
+			items:[
+			       {
+				id: 'tbx_start',
+				xtype: 'textfield',
+				label: 'Location'
+				},
+				
+				{
+				id: 'chk_gmap',
+				xtype: 'checkboxfield',
+				label: 'Google Map',
+				checked: true,
+				labelWidth:'70%',
+				listeners:{
+					check: function(){
+						Ext.getCmp('chk_olmap').uncheck();
+						mapOl.getLayers().a[0].setVisible(false);
+						}
 					}
-					//html:"hello"}
-				]
-				/*, 	
-
-               html: [
-                    "You've just generated a new Sencha Touch 2 project. What you're looking at right now is the ",
-                    "contents of <a target='_blank' href=\"app/view/Main.js\">app/view/Main.js</a> - edit that file ",
-                    "and refresh to change what's rendered here."
-                ].join("")*/
+				},
+				{
+				id: 'chk_olmap',
+				xtype: 'checkboxfield',
+				label: 'Open Street Map',
+				checked: false,
+				labelWidth:'70%',
+				listeners:{
+					check: function(){
+						Ext.getCmp('chk_gmap').uncheck();
+						mapOl.getLayers().a[0].setVisible(true);
+						},
+					uncheck: function (){mapOl.getLayers().a[0].setVisible(false);}
+					}
+				},
+				{
+				id: 'chk_bingmap',
+				xtype: 'checkboxfield',
+				label: 'Bing Map',
+				checked: false,
+				labelWidth:'70%',
+				listeners:{
+					check: function(){
+						Ext.getCmp('chk_gmap').uncheck();
+						mapOl.getLayers().a[1].setVisible(true);
+						},
+					uncheck: function (){mapOl.getLayers().a[1].setVisible(false);}
+					}
+				   }
+				},
+			{
+			xtype: 'map',
+			id: 'mapPanel',
+			useCurrentLocation: false,
+			flex: 2
+			}
+					
+			]
+			
             },
             {
                 title: 'Route Search',
